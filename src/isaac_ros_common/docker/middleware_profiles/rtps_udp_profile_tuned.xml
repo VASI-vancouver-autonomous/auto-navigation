@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+Copyright (c) 2022-2024, NVIDIA CORPORATION.  All rights reserved.
+
+NVIDIA CORPORATION and its licensors retain all intellectual property
+and proprietary rights in and to this software, related documentation
+and any modifications thereto.  Any use, reproduction, disclosure or
+distribution of this software and related documentation without an express
+license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+Enhanced Fast RTPS profile with buffer tuning for large messages and
+lossy network connections (e.g., WiFi). This profile addresses:
+- IP fragment buffer overflow issues
+- Large message delivery problems
+- Network flooding with fast-published data
+-->
+
+<license>NVIDIA Isaac ROS Software License</license>
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles" >
+    <transport_descriptors>
+        <transport_descriptor>
+            <transport_id>UdpTransport</transport_id>
+            <type>UDPv4</type>
+            <maxInitialPeersRange>400</maxInitialPeersRange>
+            <!-- Increased socket buffer sizes for large messages -->
+            <sendBufferSize>2097152</sendBufferSize>  <!-- 2MB -->
+            <receiveBufferSize>2097152</receiveBufferSize>  <!-- 2MB -->
+        </transport_descriptor>
+    </transport_descriptors>
+
+    <participant profile_name="udp_transport_profile_tuned" is_default_profile="true">
+        <rtps>
+            <userTransports>
+                <transport_id>UdpTransport</transport_id>
+            </userTransports>
+            <useBuiltinTransports>false</useBuiltinTransports>
+            
+            <!-- Increased buffer sizes for better handling of large/fast messages -->
+            <allocation>
+                <max_unicast_locators>20</max_unicast_locators>
+                <max_multicast_locators>10</max_multicast_locators>
+            </allocation>
+            
+            <!-- Increased send/receive buffer sizes -->
+            <sendBuffers>
+                <preallocated_number>16</preallocated_number>
+                <dynamic>true</dynamic>
+                <initial>16</initial>
+            </sendBuffers>
+            
+            <receiveBuffers>
+                <preallocated_number>16</preallocated_number>
+                <dynamic>true</dynamic>
+                <initial>16</initial>
+            </receiveBuffers>
+        </rtps>
+    </participant>
+    
+    <!-- Publisher profile with increased buffer sizes -->
+    <publisher profile_name="publisher_tuned">
+        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>
+        <qos>
+            <!-- Use best-effort for lossy connections to reduce overhead -->
+            <!-- Uncomment the following if you want best-effort instead of reliable -->
+            <!--
+            <reliability>
+                <kind>BEST_EFFORT</kind>
+            </reliability>
+            -->
+        </qos>
+    </publisher>
+    
+    <!-- Subscriber profile with increased buffer sizes -->
+    <subscriber profile_name="subscriber_tuned">
+        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>
+        <qos>
+            <!-- Use best-effort for lossy connections to reduce overhead -->
+            <!-- Uncomment the following if you want best-effort instead of reliable -->
+            <!--
+            <reliability>
+                <kind>BEST_EFFORT</kind>
+            </reliability>
+            -->
+        </qos>
+    </subscriber>
+</profiles>
+

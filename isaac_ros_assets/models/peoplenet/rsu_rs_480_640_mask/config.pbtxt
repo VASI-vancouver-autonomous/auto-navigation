@@ -1,0 +1,23 @@
+name: ""
+platform: "tensorrt_plan"
+max_batch_size: 0
+input [
+  {
+    name: "preprocess/input_1:0"
+    data_type: TYPE_FP32
+    format: FORMAT_NHWC
+    dims: [ 480, 640, 3 ]
+  }
+]
+output [
+  {
+    name: "postprocess/people_mask"
+    data_type: TYPE_FP32
+    dims: [ 1, 480, 640, 1 ]
+    }
+]
+version_policy: {
+  specific {
+    versions: [ 1 ]
+  }
+}

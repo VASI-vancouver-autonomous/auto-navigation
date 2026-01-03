@@ -1,0 +1,59 @@
+# Build directories
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment variables
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model files (large binary files)
+*.pt
+*.onnx
+*.plan
+*.trt
+*.engine
+
+# Rosbag database files
+*.db3
+*.bag
+
+# Keys and secrets
+*.key
+*.pem
+*.p12
+*.pfx
+**/*secret*
+**/*.env
+**/*ngc*
+**/ngc_api_key*
+**/NGC_API_KEY*
+**/.ngc*
+**/credentials*
+**/api_key*
+**/API_KEY*
+**/token*
+**/TOKEN*
+**/password*
+**/PASSWORD*
+

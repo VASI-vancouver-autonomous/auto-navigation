@@ -1,0 +1,24 @@
+# Ignore all pycache files
+**/__pycache__/**
+
+# Ignore config files
+.isaac_ros_common-config
+
+# Ignore keys and secrets
+*.key
+*.pem
+*.p12
+*.pfx
+**/*secret*
+**/*.env
+**/*ngc*
+**/ngc_api_key*
+**/NGC_API_KEY*
+**/.ngc*
+**/credentials*
+**/api_key*
+**/API_KEY*
+**/token*
+**/TOKEN*
+**/password*
+**/PASSWORD*

@@ -1,0 +1,44 @@
+/**:
+  ros__parameters:
+    # ============================================
+    # PS5 DualSense Controller - Simple Setup
+    # ============================================
+    #
+    # CONTROLS:
+    #   - Left Stick UP/DOWN    = Forward/Backward
+    #   - Left Stick LEFT/RIGHT = Rotate Left/Right
+    #
+    # ============================================
+    
+    # Which joystick axes to use for movement
+    axis_linear:
+      x: 1      # Left stick vertical (push UP = forward, DOWN = backward)
+    axis_angular:
+      yaw: 0    # Left stick horizontal (push LEFT = rotate left, RIGHT = rotate right)
+    
+    # How fast the robot moves (standard safe values from official configs)
+    # These are much lower than max speeds for better control
+    scale_linear:
+      x: 0.7    # Forward/backward speed in m/s (standard: 0.7)
+    scale_linear_turbo:
+      x: 1.5    # Turbo mode speed (faster when turbo button pressed)
+    scale_angular:
+      yaw: 0.4  # Rotation speed in rad/s (standard: 0.4, much safer!)
+    scale_angular_turbo:
+      yaw: 1.0  # Turbo mode rotation (faster when turbo button pressed)
+    
+    # Safety settings - require button to enable movement?
+    enable_button: -1              # -1 = always enabled (no button needed)
+    require_enable_button: false   # false = don't require button (CRITICAL!)
+    enable_turbo_button: -1        # -1 = no turbo button
+    
+    # ============================================
+    # ADVANCED: Button/Axis Reference (for future use)
+    # ============================================
+    # Buttons: 0=X, 1=Circle, 2=Square, 3=Triangle
+    #          4=L1, 5=R1, 6=L2, 7=R2
+    #          8=Share, 9=Options, 10=L3, 11=R3
+    # Axes: 0=Left stick H, 1=Left stick V
+    #       2=Right stick H, 3=Right stick V
+    #       4=Left trigger, 5=Right trigger
+    # ============================================

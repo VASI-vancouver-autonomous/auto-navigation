@@ -1,0 +1,6 @@
+# Auto-source Isaac ROS workspace if it exists
+if [ -f /workspaces/isaac_ros-dev/install/setup.bash ]; then
+    source /workspaces/isaac_ros-dev/install/setup.bash
+    echo "✓ Sourced Isaac ROS workspace"
+fi
+
