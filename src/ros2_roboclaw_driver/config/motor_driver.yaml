@@ -1,0 +1,87 @@
+# The configuration file provides values for the two, differential
+# drive motors, 'm1' and 'm2'. See the article:
+# https://resources.basicmicro.com/auto-tuning-with-motion-studio/
+# for a description of how to derive the p, i, d and qpps values.
+#
+# This configuration file is set up and an example for use with
+# A Raspberry PI 5 using a UART to connect to a RoboClaw motor driver.
+# See the README.md file for more information on how to set up
+# the RoboClaw and the Raspberry PI and how to set values in this file.
+
+motor_driver_node:
+  ros__parameters:
+    # Incremental acceleration to use in quadrature pulses per second.
+    # Start with 1000-2000, increase for faster response, decrease for smoother motion
+    accel_quad_pulses_per_second: 1500  # QPPS/s - adjust based on testing
+
+    # The device name to be opened. Change this to your actual device you are using.
+    # Both USB and UART devices are supported. The device name is the
+    # name of the device as it appears in the /dev directory.
+    # For USB connection, use /dev/ttyACM0 (or /dev/ttyUSB0)
+    device_name: "/dev/ttyACM0"  # USB device for RoboClaw
+    baud_rate: 115200 # RoboClaw baud rate (packet serial mode). Note: This is ignored when using USB.
+
+    # The assigned port/address for the device (as configured on the RoboClaw).
+    # Packet serial mode, address 128 (default)
+    device_port: 128
+
+    # The P, I, D and maximum quadrature pulses per second for both motors.
+    # These values are from Basic Micro Motion Studio autotuning (Velocity PID).
+    # Motor 1 (Left Motor) - Velocity PID values
+    m1_p: 4.46323
+    m1_i: 0.31879
+    m1_d: 0.0000
+    m1_qpps: 11880  # Max QPPS from Motion Studio
+    # Motor 2 (Right Motor) - Velocity PID values
+    m2_p: 4.46323
+    m2_i: 0.32071
+    m2_d: 0.0000
+    m2_qpps: 11550  # Max QPPS from Motion Studio
+
+    # The maximum expected current (in amps) for both motors.
+    # Used just to signal warnings.
+    m1_max_current: 6.0
+    m2_max_current: 6.0
+
+    # Rate limiting commands. The driver will clip any value
+    # exceeding these limits.
+    # Calculated from: max_linear = min(m1_qpps, m2_qpps) / quad_pulses_per_meter
+    # Motor 1: 11880 / 6791.4 = 1.75 m/s, Motor 2: 11550 / 6791.4 = 1.70 m/s
+    # Using conservative limit of 1.5 m/s for safety
+    max_linear_velocity: 1.5  # m/s - adjust based on testing
+    
+    # Calculated from: max_angular = (max_linear / wheel_separation) × 2
+    # (1.5 / 0.4572) × 2 = 6.56 rad/s, using conservative 2.0 rad/s for safety
+    max_angular_velocity: 2.0  # rad/s - adjust based on testing
+
+    # If no new motor commands is received since the last motor
+    # command in this number of seconds, stop the motors.
+    max_seconds_uncommanded_travel: 0.25
+
+    publish_joint_states: false
+    publish_odom: true
+
+    # Based upon your particular motor gearing and encoders.
+    # These values are used to scale cmd_vel commands
+    # and encoder values to motor commands and odometry, respectfully.
+    # Based on 30:1 gear ratio and 90mm (0.045m radius) wheels
+    # Note: quad_pulses_per_meter must be integer, quad_pulses_per_revolution must be double
+    quad_pulses_per_meter: 6791  # Integer value (rounded from 6791.4)
+    quad_pulses_per_revolution: 1920.0  # Double value - must have decimal point
+
+    # Based upon your particular robot model.
+    # The wheel separation and radius, in meters.
+    wheel_radius: 0.045  # 90mm diameter wheels
+    wheel_separation: 0.4572  # Distance between wheel centers
+
+    # Topic name to be used to publish the RoboClaw status messages.
+    roboclaw_status_topic: "roboclaw_status"
+
+    # How often, in Hz, to sense the various RoboClaw internal values.
+    # This is the rate that Joint State, Odomentry and
+    # RoboClaw status messages are published.
+    sensor_rate_hz: 20.0
+
+    # Debugging control.
+    do_debug: false # True => Log RoboClaw commands and responses.
+    do_low_level_debug: false # True => Log low-level serial and RoboClaw data.
