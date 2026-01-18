@@ -174,7 +174,7 @@ ros2 launch ps5_button_teleop.launch.py
 
 **VASI Initiative**  
 Email: vasinitiative@yahoo.com  
-Primary Technical Stewardship: Lawrence Okolo
+
 
 ---
 
